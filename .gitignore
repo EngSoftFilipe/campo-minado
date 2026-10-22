@@ -1,0 +1,12 @@
+# Arquivos compilados
+target/
+
+# Configurações do editor
+.vscode/
+.idea/
+
+# Registros da extensão de migração
+.github/modernize/
+
+# Logs
+*.log
