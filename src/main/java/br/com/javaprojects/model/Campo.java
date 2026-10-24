@@ -8,9 +8,14 @@ import br.com.javaprojects.exceptions.ExplosaoException;
 public class Campo {
     
     private final int linha;
+    public int getLinha(){ return linha; }
+
     private final int coluna;
+    public int getColuna(){ return coluna; }
 
     private boolean aberto = false;
+    void setAberto(boolean aberto){ this.aberto = aberto; }
+
     private boolean minado = false;
     private boolean marcado = false;
 
@@ -72,9 +77,15 @@ public class Campo {
         minado = true;
     }
 
+    public boolean isMinado(){
+        return minado;
+    }
+
     public boolean isMarcado(){
         return marcado;
     }
+
+    
 
     public boolean isAberto(){
         return aberto;
@@ -83,4 +94,35 @@ public class Campo {
     public boolean isFechado(){
         return !isAberto();
     }
+
+    boolean objetivoAlcancado(){
+        boolean desvendado = !minado && aberto;
+        boolean protegido = minado && marcado;
+        return desvendado || protegido;
+    }
+
+    long minasNaVizinhanca(){
+        return vizinhos.stream().filter(v -> v.minado).count();
+    }
+
+    void reiniciar(){
+        aberto = false;
+        minado = false;
+        marcado = false;
+    }
+
+    public String toString(){
+        if(marcado){
+            return "X";
+        } else if (aberto && minado){
+            return "*";
+        } else if(aberto && minasNaVizinhanca() > 0) {
+            return Long.toHexString(minasNaVizinhanca());
+        } else if(aberto){
+            return " ";
+        } else {
+            return "?";
+        }
+    }
+    
 }
